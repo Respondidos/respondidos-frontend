@@ -8,7 +8,7 @@ import Base from './pages/Base.vue'
 Vue.use(Router)
 
 export default new Router({
-    mode: 'history',
+	mode: 'history',
 	routes: [
 		{
 			path: '/login',
@@ -19,6 +19,7 @@ export default new Router({
 			path: '/',
 			name: 'base',
 			component: Base,
+			redirect: '/list',
 			children: [
 				{
 					path: '/list',
