@@ -16,8 +16,7 @@
                             v-col(justify-self="center" align-self="center")
                                 v-row.justify-end()
                                     v-col(cols="2")
-                                        v-list-title() {{turma.qtdUsers}}
-                v-divider
+                                        v-list-item-title() {{turma.qtdUsers}}
 </template>
 <script>
 import createClass from '../pages/CreateClass'

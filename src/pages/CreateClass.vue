@@ -14,7 +14,7 @@
             span.subtitle-1.font-weight-medium Nome
             v-text-field(outlined single-line clearable :rules='[rules.required]' hint='O titulo, em contato seria o nome da pessoa')
             span.subtitle-1.font-weight-medium Perguntas
-            v-autocomplete( :items="questions" outlined multiple small-chips clearable max-height="200px")
+            v-autocomplete( :items="questions" outlined multiple small-chips clearable)
       v-spacer
       v-scale-transition
         v-row.justify-end.mr-2
@@ -24,7 +24,7 @@
         v-btn( color="pink" text @click="snackbar.enable = false" ) Fechar
 </template>
 
-<script>
+<script> 
 export default {
   data () {
     return {
