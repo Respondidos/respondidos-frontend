@@ -2,18 +2,24 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './pages/Login.vue'
+import SignUp from './pages/SignUp.vue'
 import List from './pages/ClassList.vue'
 import Base from './pages/Base.vue'
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
     mode: 'history',
 	routes: [
 		{
 			path: '/login',
 			name: 'login',
 			component: Login
+		},
+		{
+			path: '/signup',
+			name: 'signUp',
+			component: SignUp
 		},
 		{
 			path: '/',
@@ -29,3 +35,11 @@ export default new Router({
 		}
 	]
 })
+router.beforeEach((to, from, next) => {
+	if(to.path === '/') {
+		next('/list')
+	} else {
+		next()
+	}	
+})
+export default router
