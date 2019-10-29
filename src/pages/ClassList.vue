@@ -4,7 +4,7 @@
             template(v-slot:activator='{ on }')
                 v-btn.primary(v-on='on' fixed fab bottom right)
                     v-icon +
-            createClass()
+            CreateQuiz()
         v-list(two-line)
             div(v-for="turma in classes" :key="turma.code")
                 v-list-item()
@@ -20,9 +20,11 @@
 </template>
 <script>
 import createClass from '../pages/CreateClass'
+import CreateQuiz from '../pages/CreateQuiz'
 export default {
     components: {
-        createClass
+        createClass,
+        CreateQuiz
     },
     data () {
         return {
