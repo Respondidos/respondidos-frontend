@@ -52,11 +52,10 @@ export default {
       return {
         drawer: false,
         items: [
-          { name: 'Turmas', icon: 'mdi-home-city', path: '/turmalist' },
-          { name: 'Perguntas', icon: 'mdi-account', path: '/' },
-          { name: 'Quizes', icon: 'mdi-account-group-outline', path: '/' },
+          { name: 'Home', path: '/' },
+          { name: 'Turmas', path: '/turmas' },
+          { name: 'Questões', icon: 'mdi-account-group-outline', path: '/questoes' },
         ],
-        mini: true,
       }
     },
     created() {

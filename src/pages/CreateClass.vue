@@ -1,9 +1,3 @@
-<style lang="sass">
-.vue-tel-input
-  height: 56px
-  border-radius: 4px !important
-</style>
-
 <template lang="pug">
   v-card
     v-card-title() Adicionar Turma

@@ -4,6 +4,8 @@ import Router from 'vue-router'
 import Login from './pages/Login.vue'
 import SignUp from './pages/SignUp.vue'
 import List from './pages/ClassList.vue'
+import ClassList from './pages/ClassList.vue'
+import QuestionsList from './pages/QuestionsList.vue'
 import Base from './pages/Base.vue'
 
 Vue.use(Router)
@@ -25,12 +27,17 @@ var router = new Router({
 			path: '/',
 			name: 'base',
 			component: Base,
-			redirect: '/turmalist',
+			redirect: '/turmas',
 			children: [
 				{
-					path: '/turmalist',
-					name: 'list',
-					component: List
+					path: '/turmas',
+					name: 'classes',
+					component: ClassList
+				},
+				{
+					path: '/questoes',
+					name: 'questions',
+					component: QuestionsList
 				}
 			]
 		}
