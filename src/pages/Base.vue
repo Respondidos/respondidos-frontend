@@ -13,12 +13,12 @@
 
       <v-list dense nav>
         <div v-for="item in items" :key="item.name">
-          <v-btn block text left :to="item.link">
-          <v-list-item>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.name }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
+          <v-btn block text left :to="item.path">
+            <v-list-item>
+              <v-list-item-content>
+                <v-list-item-title>{{ item.name }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-btn>
         </div>
         <v-divider></v-divider>
@@ -52,9 +52,9 @@ export default {
       return {
         drawer: false,
         items: [
-          { name: 'Home', icon: 'mdi-home-city', path: '/' },
-          { name: 'My Account', icon: 'mdi-account', path: '/' },
-          { name: 'Users', icon: 'mdi-account-group-outline', path: '/' },
+          { name: 'Turmas', icon: 'mdi-home-city', path: '/turmalist' },
+          { name: 'Perguntas', icon: 'mdi-account', path: '/' },
+          { name: 'Quizes', icon: 'mdi-account-group-outline', path: '/' },
         ],
         mini: true,
       }

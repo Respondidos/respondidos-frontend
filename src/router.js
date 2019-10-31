@@ -8,7 +8,7 @@ import Base from './pages/Base.vue'
 
 Vue.use(Router)
 
-export default new Router({
+var router = new Router({
 	mode: 'history',
 	routes: [
 		{
@@ -25,10 +25,10 @@ export default new Router({
 			path: '/',
 			name: 'base',
 			component: Base,
-			redirect: '/list',
+			redirect: '/turmalist',
 			children: [
 				{
-					path: '/list',
+					path: '/turmalist',
 					name: 'list',
 					component: List
 				}
@@ -38,7 +38,7 @@ export default new Router({
 })
 router.beforeEach((to, from, next) => {
 	if(to.path === '/') {
-		next('/list')
+		next('/turmalist')
 	} else {
 		next()
 	}	
