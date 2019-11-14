@@ -3,8 +3,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './pages/Login.vue'
 import SignUp from './pages/SignUp.vue'
-import List from './pages/ClassList.vue'
-import ClassList from './pages/ClassList.vue'
+import QuizzesList from './pages/QuizzesList.vue'
 import QuestionsList from './pages/QuestionsList.vue'
 import Base from './pages/Base.vue'
 
@@ -27,12 +26,12 @@ var router = new Router({
 			path: '/',
 			name: 'base',
 			component: Base,
-			redirect: '/turmas',
+			redirect: '/quizzes',
 			children: [
 				{
-					path: '/turmas',
-					name: 'classes',
-					component: ClassList
+					path: '/quizzes',
+					name: 'questions',
+					component: QuizzesList
 				},
 				{
 					path: '/questoes',
@@ -45,7 +44,7 @@ var router = new Router({
 })
 router.beforeEach((to, from, next) => {
 	if(to.path === '/') {
-		next('/turmalist')
+		next('/quizzes')
 	} else {
 		next()
 	}	

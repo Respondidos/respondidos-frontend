@@ -3,7 +3,7 @@
         v-dialog(v-model='dialog' max-width="700")
             template(v-slot:activator='{ on }')
                 v-btn.primary(v-on='on' fixed fab bottom right)
-                    v-icon +
+                    v-icon add
             createQuestion()
         v-list(two-line)
             div(v-for="question in questions" :key="question.id")

@@ -16,6 +16,7 @@
                                         v-btn.primary.mt-5(text block @click="goToSignUp") Cadastro 
 </template>
 <script>
+import axios from 'axios'
 export default {
     data () {
         return {
@@ -29,9 +30,22 @@ export default {
         }
     },
     methods: {
-        login() {
+        async login() {
+            /* eslint-disable */
             if (this.valid) {
-                this.$router.push({path: '/list'})
+                const instance = axios.create({
+                    baseURL: 'http://localhost:8888'
+                });
+                try {
+                    const authRes = await instance.post('/auth/authenticate', {
+                    email: this.email,
+                    password: this.password
+                    })
+                    console.log(authRes)
+                    this.$router.push({path: '/'})
+                } catch (err) {
+                    console.log(err)
+                }
             }
         },
         goToSignUp() {

@@ -52,8 +52,7 @@ export default {
       return {
         drawer: false,
         items: [
-          { name: 'Home', path: '/' },
-          { name: 'Turmas', path: '/turmas' },
+          { name: 'Quizzes', path: '/quizzes' },
           { name: 'Questões', icon: 'mdi-account-group-outline', path: '/questoes' },
         ],
       }
