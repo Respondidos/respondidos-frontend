@@ -42,6 +42,8 @@ export default {
                     password: this.password
                     })
                     console.log(authRes)
+                    localStorage.token = authRes.data.token
+                    localStorage.id = authRes.data.user._id
                     this.$router.push({path: '/'})
                 } catch (err) {
                     console.log(err)

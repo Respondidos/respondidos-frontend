@@ -57,6 +57,8 @@ export default {
                     email: this.email,
                     password: this.password
                 })
+                localStorage.token = authRes.data.token
+                localStorage.id = authRes.data._id
                 this.$router.push('/')
                 console.log("authRes: ", authRes)
                 // eslint-disable-next-line

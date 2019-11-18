@@ -7,6 +7,8 @@
             createQuiz()
         v-dialog(v-model="quizDialog" height="100%")
             quiz(:quiz="selectedQuiz")
+        v-dialog(v-model="rankingDialog" height="100%")
+            Ranking(:quiz="selectedQuiz")
         v-row
             v-col(cols="12")
                 span.subtitle-1.font-weight-medium() Digite o código para entrar num quiz
@@ -17,7 +19,7 @@
         span.subtitle-1.font-weight-medium.mt-5() Quizzes que você participa
         v-list(two-line)
             div(v-for="(quiz, index) in quizzes" :key="index")
-                v-list-item()
+                v-list-item(@click="showRanking(quiz)")
                     v-list-item-content
                         v-row.justify-space-between()
                             v-col(align-self="center")
@@ -29,83 +31,54 @@
 import createQuiz from '../pages/CreateQuiz'
 import Quiz from '../pages/Quiz'
 import axios from 'axios'
+import Ranking from '../pages/Ranking'
 export default {
     components: {
         createQuiz,
-        Quiz
+        Quiz,
+        Ranking
     },
     data () {
         return {
             dialog: false,
             quizDialog: false,
             quizzCode: '',
-            selectedQuiz: {
-                "_id":{"$oid":"5da0d038b49938474bb81042"},
-                "info":{
-                    "name":"Oi!!!",
-                    "creator":{
-                        "$oid":"5da0cebc50fc824676826630"
-                    }
-                    },
-                "questions":[
-                    {
-                        "header":"Que aula é essa?",
-                        "options":[
-                            {
-                                "text":"Arquitetura"
-                            },
-                            {
-                                "text":"Engenharia de Software"
-                            },
-                            {
-                                "text":"Metodologias ágeis"
-                            },
-                            {
-                                "text":"Teoria da computação",
-                                "isCorrect":true
-                            }
-                        ]
-                    },
-                    {
-                        "header":"Qual o assunto dessa aula?",
-                        "options":[
-                            {
-                                "text":"Maquina de turing",
-                                "isCorrect":true
-                            },
-                            {
-                                "text":"Dominó"
-                            },
-                            {
-                                "text":"Varrer chão"
-                            },
-                            {
-                                "text":"Como domar uma mosca"
-                            }
-                        ]
-                    }
-                ],
-                "__v":{
-                    "$numberInt":"0"
-                }
-            },
-            quizzes: null
+            selectedQuiz: {},
+            quizzes: null,
+            quizzesParticipating: null,
+            rankingDialog: false
         }
     },
     methods: {
-        enterQuiz (){
+        async enterQuiz (){
+            /* eslint-disable */ 
+            const instance = axios.create({
+            baseURL: 'http://localhost:8888',
+            headers: {'authorization':  'Bearer ' + localStorage.token }
+            });
+            const res = await instance.get(`/quizzes/code/:${quizzCode}`)
+            console.log("res: ", res)
             this.quizDialog = true
+        },
+        showRanking (quiz) {
+            /* eslint-disable */
+            console.log(quiz)
+            this.selectedQuiz = quiz
+            this.rankingDialog = true
         }
     },
     async created() {
         /* eslint-disable */
         const instance = axios.create({
             baseURL: 'http://localhost:8888',
-            headers: {'authorization':  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkY2Q4ZmRjYTBjOGRjMDVkYjIzMzZiMiIsImlhdCI6MTU3Mzc1MjkyMiwiZXhwIjoxNTczODM5MzIyfQ.UN5lA6y0TDYM_xNPAHMVNzmL-H3Zvedb1zJRhry5fjI'}
+            headers: {'authorization':  'Bearer ' + localStorage.token }
         });
-        const res = await instance.get('/quizzes')
+        const res = await instance.get(`/user/quizzes/own`)
         console.log("res: ", res)
-        this.quizzes = res.data
+        this.quizzesOwn = res.data
+        const response = await instance.get(`/user/quizzes/participating`)
+        console.log("res: ", response)
+        this.quizzesParticipating = response.data
     }
 }
 </script>

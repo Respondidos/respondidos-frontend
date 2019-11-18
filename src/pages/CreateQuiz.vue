@@ -9,8 +9,6 @@
                             v-form(v-model='formQuizValid')
                                 span Nome
                                 v-text-field(v-model='quizName' placeholder='Insira aqui o nome do seu novo quiz!' outlined :rules='[newRules.obrigatorio,newRules.caracteres]')
-                                span Turma
-                                v-select(v-model='selectedClass' placeholder='Selecione a turma desejada' outlined :items='listedClasses' :rules='[newRules.obrigatorio]')
                                 span Perguntas
                                 v-select(v-model='selectedQuestions' placeholder='Escolha as perguntas para este quiz.' outlined :items='listedQuestions' :rules='[newRules.vetorObrigatorio]' multiple chips)
                     v-row
@@ -46,59 +44,37 @@ export default {
             if (this.formQuizValid) {
                     const instance = axios.create({
                     baseURL: 'http://localhost:8888',
-                    headers: {'authorization':  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkYjIwNTZiOTY4NzdlMTY3MDJmMTUzMCIsImlhdCI6MTU3MTk0Nzg4NCwiZXhwIjoxNTcyMDM0Mjg0fQ.Y7CkHyGokd0PjsMTmzlnssBbBHmR2ilgh-r0xdIVCuQ'}
+                    headers: {'authorization':  `Bearer ${localStorage.token}`}
                     });
 
                     var objeto = {
-                        info: {
-                            name: this.quizName
+                        "info": {
+                        "name": "nome teste"
                         },
-                        questions: [
+                        "questions": [
                             { 
-                            header: 'quem descobriu o brasil',
-                            options: [
+                            "header": "quem descobriu o brasil",
+                            "options": [
                                 {
-                                text: 'bolsonaro',
-                                isCorrect: 'false'
+                                "text": "bolsonaro",
+                                "isCorrect": "false"
                                 },
                                 {
-                                text: 'cabral',
-                                isCorrect: 'true'
+                                "text": "cabral",
+                                "isCorrect": "true"
                                 },
                                 {
-                                text: 'lula livre',
-                                isCorrect: 'false'
+                                    "text": "nao sei",
+                                    "isCorrect": "false"
                                 },
                                 {
-                                text: 'machado de assis',
-                                isCorrect: 'false'
-                                }
-                            ]
-                            },
-                            { 
-                                header: 'eh o papa?',
-                                options: [
-                                {
-                                    text: 'nao sei',
-                                    isCorrect: 'false'
-                                },
-                                {
-                                    text: 'o argentino',
-                                    isCorrect: 'true'
-                                },
-                                {
-                                    text: 'lula',
-                                    isCorrect: 'false'
-                                },
-                                {
-                                    text: 'padre fabio de melo',
-                                    isCorrect: 'false'
+                                    "text": "o argentino",
+                                    "isCorrect": "false"
                                 }
                                 ]
                             }
                         ]
-                        }
-
+                    }
                     var res = await instance.post('/quizzes/',objeto)
                     console.log(res);
                 }
