@@ -17,6 +17,7 @@
 
 <script>
 import createQuestion from '../pages/CreateQuestion'
+import axios from 'axios'
 export default {
     components: {
         createQuestion
@@ -39,6 +40,16 @@ export default {
               }
             ]
         }
+    },
+     async created() {
+        /* eslint-disable */
+        const instance = axios.create({
+            baseURL: 'http://localhost:8888',
+            headers: {'authorization':  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkY2RhZWM2MTQ4ZWZiMGEwZDAzNTUwZiIsImlhdCI6MTU3NDA5ODgzOCwiZXhwIjoxNTc0MTg1MjM4fQ.YlqfKuK_cKJR2u4vbYvalI6XfaRFSpBhu-IwbMqU20c'}
+        });
+        const res = await instance.get('/questions')
+        console.log(res.data)
+        this.questions = res.data
     }
 }
 </script>
