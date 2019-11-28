@@ -36,6 +36,31 @@
     <v-app-bar app color="indigo" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>Respondidos</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-row class="justify-end align-center">
+        <v-col cols="6">
+            <v-list-item two-line>
+              <v-list-item-content>
+                <v-row class="justify-end align-center">
+                  <v-col cols="auto" justify-self="end">
+                    <v-spacer> </v-spacer>
+                    <v-list-item-avatar>
+                  <img
+        src="https://cdn.vuetifyjs.com/images/john.jpg"
+        alt="John"
+      >
+                </v-list-item-avatar>
+                  </v-col>
+                  <v-col cols="auto">
+                <v-list-item-title class="text-sm-left"> Eduardo Leite </v-list-item-title>
+                <v-list-item-subtitle class="text-sm-left"> Level 5 XP: 200 </v-list-item-subtitle>
+                  </v-col>
+                </v-row>
+                
+              </v-list-item-content>
+            </v-list-item>
+        </v-col>
+      </v-row>
     </v-app-bar>
 
     <v-content app fluid>

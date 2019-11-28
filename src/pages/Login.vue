@@ -11,7 +11,7 @@
                                     v-col
                                         v-form(v-model="valid")
                                             v-text-field(label="Email" placeholder="Digite o Email" v-model="email" outline :rules="[rules.userRequired]")
-                                            v-text-field(label="Senha" placeholder="Digite a Senha" v-model="password" outline :rules="[rules.passwordRequired]")
+                                            v-text-field(label="Senha" placeholder="Digite a Senha" v-model="password" outline :rules="[rules.passwordRequired]" :append-icon="showPassword ? 'visibility' : 'visibility_off'" :type="showPassword ? 'text' : 'password'" @click:append="showPassword = !showPassword")
                                         v-btn.primary(text block @click="login") Login
                                         v-btn.primary.mt-5(text block @click="goToSignUp") Cadastro 
 </template>
@@ -23,6 +23,7 @@ export default {
             email: '',
             password: '',
             valid: true,
+            showPassword: false,
             rules: {
                 userRequired: value => !!value || 'Preencha o email.',
                 passwordRequired: value => !!value || 'Preencha a senha.',

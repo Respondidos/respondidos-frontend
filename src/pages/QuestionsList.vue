@@ -4,14 +4,14 @@
             template(v-slot:activator='{ on }')
                 v-btn.primary(v-on='on' fixed fab bottom right)
                     v-icon add
-            createQuestion()
+            createQuestion(:questions="this.questions" v-on:emit="dialog=false")
         v-list(two-line)
             div(v-for="question in questions" :key="question.id")
                 v-list-item()
                     v-list-item-content
                         v-row.justify-space-between()
                             v-col(align-self="center")
-                                v-list-item-title() {{question.title}}
+                                v-list-item-title() {{question.header}}
                 v-divider
 </template>
 
@@ -45,7 +45,7 @@ export default {
         /* eslint-disable */
         const instance = axios.create({
             baseURL: 'http://localhost:8888',
-            headers: {'authorization':  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkY2RhZWM2MTQ4ZWZiMGEwZDAzNTUwZiIsImlhdCI6MTU3NDA5ODgzOCwiZXhwIjoxNTc0MTg1MjM4fQ.YlqfKuK_cKJR2u4vbYvalI6XfaRFSpBhu-IwbMqU20c'}
+            headers: {'authorization':  `Bearer ${localStorage.token}`}
         });
         const res = await instance.get('/questions')
         console.log(res.data)

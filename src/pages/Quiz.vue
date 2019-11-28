@@ -38,7 +38,7 @@ export default {
     created() {
         /* eslint-disable */
         console.log(this.quiz)
-        this.interval = setInterval(this.countTime, 50)
+        this.interval = setInterval(this.countTime, 100)
     },
     methods: {
         response (question) {

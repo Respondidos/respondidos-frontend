@@ -18,7 +18,16 @@
                 v-btn.primary( @click="enterQuiz") Participar
         span.subtitle-1.font-weight-medium.mt-5() Quizzes que você participa
         v-list(two-line)
-            div(v-for="(quiz, index) in quizzes" :key="index")
+            div(v-for="(quiz, index) in quizzesParticipating" :key="index")
+                v-list-item(@click="showRanking(quiz)")
+                    v-list-item-content
+                        v-row.justify-space-between()
+                            v-col(align-self="center")
+                                v-list-item-title() {{quiz.info.name}}
+                v-divider
+        span.subtitle-1.font-weight-medium.mt-5() Quizzes que você criou
+        v-list(two-line)
+            div(v-for="(quiz, index) in quizzesOwn" :key="index")
                 v-list-item(@click="showRanking(quiz)")
                     v-list-item-content
                         v-row.justify-space-between()
@@ -44,7 +53,7 @@ export default {
             quizDialog: false,
             quizzCode: '',
             selectedQuiz: {},
-            quizzes: null,
+            quizzesOwn: null,
             quizzesParticipating: null,
             rankingDialog: false
         }
@@ -56,8 +65,9 @@ export default {
             baseURL: 'http://localhost:8888',
             headers: {'authorization':  'Bearer ' + localStorage.token }
             });
-            const res = await instance.get(`/quizzes/code/:${quizzCode}`)
-            console.log("res: ", res)
+            const res = await instance.get(`/quizzes/code/${this.quizzCode}`)
+            console.log("quizz: ", res)
+            this.selectedQuiz = res.data
             this.quizDialog = true
         },
         showRanking (quiz) {

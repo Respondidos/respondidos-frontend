@@ -10,7 +10,7 @@
                                 span Nome
                                 v-text-field(v-model='quizName' placeholder='Insira aqui o nome do seu novo quiz!' outlined :rules='[newRules.obrigatorio,newRules.caracteres]')
                                 span Perguntas
-                                v-select(v-model='selectedQuestions' placeholder='Escolha as perguntas para este quiz.' outlined :items='listedQuestions' :rules='[newRules.vetorObrigatorio]' multiple chips)
+                                v-select(v-model='selectedQuestions' placeholder='Escolha as perguntas para este quiz.' outlined :items='listedQuestions' :rules='[newRules.vetorObrigatorio]' multiple chips item-value="_id" item-text="header")
                     v-row
                         v-spacer
                         v-btn.primary(@click='saveQuiz' text outlined color='white') Salvar
@@ -29,8 +29,7 @@ export default {
            quizName: "",
            selectedClass: "",
            selectedQuestions: [],
-           listedQuestions: ["Quem criou o Brasil?","De quem é a música K.O?", "Quantos Grammys Katy Perry já ganhou?", "Qual o nome da filha de Beyoncé?"],
-           listedClasses: ["1º Ano", "2º Ano", "3º Ano", "4º Ano"],
+           listedQuestions: [],
            formQuizValid: false,
            newRules: {
                obrigatorio: value => !!value || 'Campo obrigatório.',
@@ -42,44 +41,32 @@ export default {
     methods: {
         async saveQuiz() {
             if (this.formQuizValid) {
-                    const instance = axios.create({
-                    baseURL: 'http://localhost:8888',
-                    headers: {'authorization':  `Bearer ${localStorage.token}`}
-                    });
+                const instance = axios.create({
+                baseURL: 'http://localhost:8888',
+                headers: {'authorization':  `Bearer ${localStorage.token}`}
+                });
 
-                    var objeto = {
-                        "info": {
-                        "name": "nome teste"
-                        },
-                        "questions": [
-                            { 
-                            "header": "quem descobriu o brasil",
-                            "options": [
-                                {
-                                "text": "bolsonaro",
-                                "isCorrect": "false"
-                                },
-                                {
-                                "text": "cabral",
-                                "isCorrect": "true"
-                                },
-                                {
-                                    "text": "nao sei",
-                                    "isCorrect": "false"
-                                },
-                                {
-                                    "text": "o argentino",
-                                    "isCorrect": "false"
-                                }
-                                ]
-                            }
-                        ]
-                    }
-                    var res = await instance.post('/quizzes/',objeto)
-                    console.log(res);
+                var objeto = {
+                    "info": {
+                    "name": this.quizName
+                    },
+                    "questions": this.selectedQuestions
                 }
+                var res = await instance.post('/quizzes/',objeto)
+                console.log(res);
             }
         }
+
+    },
+    async created() {
+        const instance = axios.create({
+            baseURL: 'http://localhost:8888',
+            headers: {'authorization':  `Bearer ${localStorage.token}`}
+        });
+        const res = await instance.get('/questions')
+        console.log(res.data)
+        this.listedQuestions = res.data
+    }
     }
 </script>
 
