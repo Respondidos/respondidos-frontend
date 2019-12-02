@@ -5,7 +5,7 @@
                 v-btn.primary(v-on='on' fixed fab bottom right)
                     v-icon add
             createQuiz()
-        v-dialog(v-model="quizDialog" height="100%")
+        v-dialog(v-model="quizDialog" v-if="quiz" height="100%")
             quiz(:quiz="selectedQuiz")
         v-row
             v-col(cols="12")
@@ -38,6 +38,7 @@ export default {
         return {
             dialog: false,
             quizDialog: false,
+            bgAudio: undefined,
             quizzCode: '',
             selectedQuiz: {
                 "_id":{"$oid":"5da0d038b49938474bb81042"},
@@ -95,17 +96,30 @@ export default {
     methods: {
         enterQuiz (){
             this.quizDialog = true
-        }
+        },
+        playBackgroundMusic() {
+            this.bgAudio = new Audio(require('../assets/background.mp3'))
+            this.bgAudio.addEventListener('ended', function() {
+                this.currentTime = 0;
+                this.play();
+            }, false)
+            this.bgAudio.play()
+        },
+        stopMusic() {
+            this.bgAudio.pause()
+        },
+
     },
     async created() {
         /* eslint-disable */
         const instance = axios.create({
-            baseURL: 'http://localhost:8888',
+            baseURL: 'http://localhost:8889',
             headers: {'authorization':  'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVkY2Q4ZmRjYTBjOGRjMDVkYjIzMzZiMiIsImlhdCI6MTU3Mzc1MjkyMiwiZXhwIjoxNTczODM5MzIyfQ.UN5lA6y0TDYM_xNPAHMVNzmL-H3Zvedb1zJRhry5fjI'}
         });
         const res = await instance.get('/quizzes')
         console.log("res: ", res)
         this.quizzes = res.data
+        this.playBackgroundMusic()
     }
 }
 </script>

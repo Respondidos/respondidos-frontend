@@ -21,6 +21,7 @@
 
 </template>
 <script>
+
 export default {
     props: {
         quiz: Object
@@ -32,19 +33,26 @@ export default {
             timer: 0,
             timerNext: 0,
             answeringQuestion: true,
-            questionIndex: 0
+            questionIndex: 0,
+            bgAudio: undefined,
+            coinAudio: undefined,
         }
     },
-    created() {
+    mounted() {
         /* eslint-disable */
-        console.log(this.quiz)
         this.interval = setInterval(this.countTime, 50)
+        this.playBackgroundMusic()
+    },
+    beforeDestroy() {
+        this.stopMusic()
     },
     methods: {
         response (question) {
             console.log("question: ", question)
             this.showingRight = true
-            this.answeringQuestion = false
+            this.answeringQuestion = false            
+            this.coinAudio = new Audio(require('../assets/coins.mp3'))
+            this.coinAudio.play()
         },
         countTime () {
             if (this.answeringQuestion) {
@@ -69,6 +77,18 @@ export default {
                     this.finishedTest()
                 }
             }
+        },
+        playBackgroundMusic() {
+            console.log('play')
+            this.bgAudio = new Audio(require('../assets/quiz.mp3'))
+            this.bgAudio.addEventListener('ended', function() {
+                this.currentTime = 0;
+                this.play();
+            }, false)
+            this.bgAudio.play()
+        },
+        stopMusic() {
+            this.bgAudio.pause()
         },
         finishedTest () {
             console.log("finalizou")
