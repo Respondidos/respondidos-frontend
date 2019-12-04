@@ -52,8 +52,8 @@
                 </v-list-item-avatar>
                   </v-col>
                   <v-col cols="auto">
-                <v-list-item-title class="text-sm-left"> Eduardo Leite </v-list-item-title>
-                <v-list-item-subtitle class="text-sm-left"> Level 5 XP: 200 </v-list-item-subtitle>
+                <v-list-item-title class="text-sm-left"> {{user.firstName}} {{user.lastName}} </v-list-item-title>
+                <v-list-item-subtitle class="text-sm-left"> Level {{user.level}} XP: {{user.experience}} </v-list-item-subtitle>
                   </v-col>
                 </v-row>
                 
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
     data () {
       return {
@@ -80,10 +81,18 @@ export default {
           { name: 'Quizzes', path: '/quizzes' },
           { name: 'Questões', icon: 'mdi-account-group-outline', path: '/questoes' },
         ],
+        user: {}
       }
     },
-    created() {
-       
+    async created() {
+      /* eslint-disable */
+      const instance = axios.create({
+          baseURL: 'http://localhost:8888',
+          headers: {'authorization':  `Bearer ${localStorage.token}`}
+      });
+      const res = await instance.get('/user/')
+      console.log("user: ", res.data)
+      this.user = res.data
     },
     methods: {
       logout() {

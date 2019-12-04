@@ -10,10 +10,12 @@
                                 span Nome
                                 v-text-field(v-model='quizName' placeholder='Insira aqui o nome do seu novo quiz!' outlined :rules='[newRules.obrigatorio,newRules.caracteres]')
                                 span Perguntas
-                                v-select(v-model='selectedQuestions' placeholder='Escolha as perguntas para este quiz.' outlined :items='listedQuestions' :rules='[newRules.vetorObrigatorio]' multiple chips item-value="_id" item-text="header")
+                                v-select(v-model='selectedQuestions' placeholder='Escolha as perguntas para este quiz.' outlined multiple chips :items='listedQuestions' item-value="id" item-text="title")
                     v-row
                         v-spacer
                         v-btn.primary(@click='saveQuiz' text outlined color='white') Salvar
+        v-snackbar(v-model="snackbarquiz") {{snackBarText}}
+            v-btn(color="pink" text @click="snackbar = false") Close
 </template>
 
 <script>
@@ -35,7 +37,9 @@ export default {
                obrigatorio: value => !!value || 'Campo obrigatório.',
                caracteres:  value => (value || '').length <= 50 || 'Max 50 caracteres',
                vetorObrigatorio: value => value.length >= 1|| 'Selecione no minímo uma pergunta.'
-           }
+           },
+           snackBarText: '',
+           snackbarquiz: false
         }
     },
     methods: {
@@ -53,6 +57,9 @@ export default {
                     "questions": this.selectedQuestions
                 }
                 var res = await instance.post('/quizzes/',objeto)
+                this.snackBarText = res.data.accessCode
+                this.snackbarquiz = true
+                this.$emit('emit', 'teste')
                 console.log(res);
             }
         }
@@ -64,8 +71,15 @@ export default {
             headers: {'authorization':  `Bearer ${localStorage.token}`}
         });
         const res = await instance.get('/questions')
-        console.log(res.data)
-        this.listedQuestions = res.data
+        console.log("data: ", res.data)
+        const response = res.data
+        for(let question of response ) {
+            const obj = {
+                title: question.header,
+                id: question._id
+            }
+            this.listedQuestions.push(obj)
+        }
     }
     }
 </script>

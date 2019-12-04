@@ -4,9 +4,9 @@
             template(v-slot:activator='{ on }')
                 v-btn.primary(v-on='on' fixed fab bottom right)
                     v-icon add
-            createQuiz()
+            createQuiz(v-on:emit="dialog=false")
         v-dialog(v-model="quizDialog" height="100%")
-            quiz(:quiz="selectedQuiz")
+            quiz(:quiz="selectedQuiz" v-on:emit="quizDialog=false")
         v-dialog(v-model="rankingDialog" height="100%")
             Ranking(:quiz="selectedQuiz")
         v-row
@@ -34,6 +34,8 @@
                             v-col(align-self="center")
                                 v-list-item-title() {{quiz.info.name}}
                 v-divider
+        v-snackbar(v-model="snackbar") Você já participou desse quiz
+            v-btn(color="pink" text @click="snackbar = false") Close
 </template>
 
 <script>
@@ -55,20 +57,27 @@ export default {
             selectedQuiz: {},
             quizzesOwn: null,
             quizzesParticipating: null,
-            rankingDialog: false
+            rankingDialog: false,
+            snackbar: false
         }
     },
     methods: {
         async enterQuiz (){
             /* eslint-disable */ 
-            const instance = axios.create({
-            baseURL: 'http://localhost:8888',
-            headers: {'authorization':  'Bearer ' + localStorage.token }
-            });
-            const res = await instance.get(`/quizzes/code/${this.quizzCode}`)
-            console.log("quizz: ", res)
-            this.selectedQuiz = res.data
-            this.quizDialog = true
+            try {
+                const instance = axios.create({
+                baseURL: 'http://localhost:8888',
+                headers: {'authorization':  'Bearer ' + localStorage.token }
+                });
+                const res = await instance.get(`/quizzes/code/${this.quizzCode}`)
+                console.log("quizz: ", res)
+                this.selectedQuiz = res.data[0]
+                this.quizDialog = true
+            } catch(err) {
+                if (err.response.status === 412) {
+                    this.snackbar = true
+                }
+            }
         },
         showRanking (quiz) {
             /* eslint-disable */
