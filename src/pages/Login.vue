@@ -1,11 +1,12 @@
 <template lang="pug">
     v-app
         v-container.primary(fluid fill-height)
+            v-snackbar(v-model="snackbar" :timeout="5000" top) {{ snackbarText }}
             v-row.justify-center.align-center()
                 v-col(cols=12 md=5)
                     v-card(md=12 xs=12)
                         v-card-text
-                            span.headline Login
+                            span.headline Login {{ snackbarText }}
                             v-container
                                 v-row.justify-center.align-center()
                                     v-col
@@ -28,6 +29,8 @@ export default {
                 userRequired: value => !!value || 'Preencha o email.',
                 passwordRequired: value => !!value || 'Preencha a senha.',
             },
+            snackbarText: '',
+            snackbar: false
         }
     },
     methods: {
@@ -37,18 +40,16 @@ export default {
                 const instance = axios.create({
                     baseURL: 'http://localhost:8888'
                 });
-                try {
-                    const authRes = await instance.post('/auth/authenticate', {
+                const authRes = await instance.post('/auth/authenticate', {
                     email: this.email,
                     password: this.password
-                    })
-                    console.log(authRes)
-                    localStorage.token = authRes.data.token
-                    localStorage.id = authRes.data.user._id
-                    this.$router.push({path: '/'})
-                } catch (err) {
-                    console.log(err)
-                }
+                }).catch(err => {
+                    this.snackbarText = err.response.data.error
+                    this.snackbar = true
+                })
+                localStorage.token = authRes.data.token
+                localStorage.id = authRes.data.user._id
+                this.$router.push({path: '/'})
             }
         },
         goToSignUp() {
