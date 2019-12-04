@@ -35,19 +35,25 @@ export default {
             timerNext: 0,
             answeringQuestion: true,
             questionIndex: 0,
+            bgAudio: undefined,
+            coinAudio: undefined,
             score: 0,
             isFinished: false
         }
     },
-    created() {
+    mounted() {
         /* eslint-disable */
         console.log(this.quiz)
         this.interval = setInterval(this.countTime, 100)
+        this.playBackgroundMusic()
     },
     computed: {
         timerPercentage () {
             return this.timer * 5
         }
+    },
+    beforeDestroy() {
+        this.stopMusic()
     },
     methods: {
         response (question) {
@@ -69,6 +75,8 @@ export default {
                 }
             }
             }
+            this.coinAudio = new Audio(require('../assets/coins.mp3'))
+            this.coinAudio.play()
         },
         countTime () {
             if (this.answeringQuestion && !this.isFinished) {
@@ -96,6 +104,21 @@ export default {
                     this.finishedTest()
                 }
             }
+        },
+
+
+        
+        playBackgroundMusic() {
+            console.log('play')
+            this.bgAudio = new Audio(require('../assets/quiz.mp3'))
+            this.bgAudio.addEventListener('ended', function() {
+                this.currentTime = 0;
+                this.play();
+            }, false)
+            this.bgAudio.play()
+        },
+        stopMusic() {
+            this.bgAudio.pause()
         },
         async finishedTest () {
             this.isFinished = true

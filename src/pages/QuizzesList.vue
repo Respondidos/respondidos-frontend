@@ -5,7 +5,7 @@
                 v-btn.primary(v-on='on' fixed fab bottom right)
                     v-icon add
             createQuiz(v-on:emit="dialog=false")
-        v-dialog(v-model="quizDialog" height="100%")
+        v-dialog(v-model="quizDialog" v-if="quiz" height="100%")
             quiz(:quiz="selectedQuiz" v-on:emit="quizDialog=false")
         v-dialog(v-model="rankingDialog" height="100%")
             Ranking(:quiz="selectedQuiz")
@@ -53,6 +53,7 @@ export default {
         return {
             dialog: false,
             quizDialog: false,
+            bgAudio: undefined,
             quizzCode: '',
             selectedQuiz: {},
             quizzesOwn: null,
@@ -84,6 +85,17 @@ export default {
             console.log(quiz)
             this.selectedQuiz = quiz
             this.rankingDialog = true
+        },
+        playBackgroundMusic() {
+            this.bgAudio = new Audio(require('../assets/background.mp3'))
+            this.bgAudio.addEventListener('ended', function() {
+                this.currentTime = 0;
+                this.play();
+            }, false)
+            this.bgAudio.play()
+        },
+        stopMusic() {
+            this.bgAudio.pause()
         }
     },
     async created() {
