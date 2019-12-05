@@ -5,7 +5,7 @@
                 v-btn.primary(v-on='on' fixed fab bottom right)
                     v-icon add
             createQuiz(v-on:emit="dialog=false")
-        v-dialog(v-model="quizDialog" v-if="quiz" height="100%")
+        v-dialog(v-model="quizDialog" v-if="quizDialog" height="100%")
             quiz(:quiz="selectedQuiz" v-on:emit="quizDialog=false")
         v-dialog(v-model="rankingDialog" height="100%")
             Ranking(:quiz="selectedQuiz")

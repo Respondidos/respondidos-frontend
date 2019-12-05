@@ -155,14 +155,21 @@ export default {
         this.$router.push('login')
       },
       convertAvatarToUrl(avatar) {
-        const avatarImage = require(`../assets/avatars/${avatar}.png`)
-        return avatarImage ? avatarImage : ''
+        if (avatar) {
+          const avatarImage = require(`../assets/avatars/${avatar}.png`)
+          return avatarImage ? avatarImage : ''
+        } else {
+          const avatarImage = require(`../assets/avatars/001.png`)
+          return avatarImage ? avatarImage : ''
+        }
+        
       },
       getAvatarOptions() {
         let options = []
         for (let i = 1 ; i <= 151 ; i++) {
           options.push(this.formatNumber(i, 3))
         }
+        console.log("options: ", options)
         return options;
       },
       formatNumber(number, digits) {
