@@ -32,7 +32,12 @@
                     v-list-item-content
                         v-row.justify-space-between()
                             v-col(align-self="center")
-                                v-list-item-title() {{quiz.info.name}}
+                                v-list-item-title()
+                                    v-row(justify="space-between")
+                                        v-col(cols="auto")
+                                            span {{quiz.info.name}}
+                                        v-col(cols="2" xs="4" sm="3" md="3" lg="2" xl="2")
+                                            span.secondary--text {{quiz.accessCode}}
                 v-divider
         v-snackbar(v-model="snackbar") Você já participou desse quiz
             v-btn(color="pink" text @click="snackbar = false") Close
