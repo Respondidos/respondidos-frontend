@@ -1,12 +1,13 @@
 <template lang="pug">
     v-app
         v-container.primary(fluid fill-height)
-            v-snackbar(v-model="snackbar" :timeout="5000" top) {{ snackbarText }}
+            v-snackbar(v-model="snackbar" :timeout="5000" top color="error") {{ snackbarText }}
             v-row.justify-center.align-center()
                 v-col(cols=12 md=5)
                     v-card(md=12 xs=12)
                         v-card-text
-                            span.headline Login {{ snackbarText }}
+                            div.text-center
+                                span.headline Respondidos
                             v-container
                                 v-row.justify-center.align-center()
                                     v-col

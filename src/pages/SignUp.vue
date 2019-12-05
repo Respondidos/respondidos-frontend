@@ -35,7 +35,7 @@ export default {
                 userRequired: value => !!value || 'Preencha o email.',
                 passwordRequired: value => !!value || 'Preencha a senha.',
                 passwordEqual: value => value === this.password || 'A senha deve ser igual',
-                passwordSize: value => value.length > 8 || 'A senha deve conter mais de 7 digitos'
+                passwordSize: value => value.length >= 8 || 'A senha deve conter pelo menos 8 digitos'
             },
         }
     },
