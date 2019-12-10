@@ -38,7 +38,7 @@
       <v-toolbar-title>Respondidos</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-row class="justify-end align-center">
-        <v-col cols="6">
+        <v-col cols="auto">
             <v-list-item two-line>
               <v-list-item-content>
                 <v-row class="justify-end align-center">
@@ -146,8 +146,9 @@ export default {
       const res = await instance.get('/user/')
       console.log("user: ", res.data)
       this.user = res.data
+      this.user.level = Math.floor(this.user.experience/500)
       this.userAvatar = this.convertAvatarToUrl(this.user.avatar)
-      this.avatarOptions = this.getAvatarOptions()
+      this.avatarOptions = this.getAvatarOptions(this.user.level)
       console.log(this.avatarOptions)
     },
     methods: {
@@ -164,9 +165,9 @@ export default {
         }
         
       },
-      getAvatarOptions() {
+      getAvatarOptions(level) {
         let options = []
-        for (let i = 1 ; i <= 151 ; i++) {
+        for (let i = 1 ; i <= (21 + level*10) ; i++) {
           options.push(this.formatNumber(i, 3))
         }
         console.log("options: ", options)

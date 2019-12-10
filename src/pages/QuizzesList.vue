@@ -67,6 +67,20 @@ export default {
             snackbar: false
         }
     },
+    beforeDestroy() {
+        this.stopMusic()
+    },
+    watch: {
+        quizDialog: function (val) {
+            /* eslint-disable */
+            if (val === true) {
+                console.log("entrou aqui com valor: ", val)
+                this.bgAudio.pause()
+            } else {
+                this.playBackgroundMusic()
+            }
+        }
+    },
     methods: {
         async enterQuiz (){
             /* eslint-disable */ 
@@ -76,8 +90,9 @@ export default {
                 headers: {'authorization':  'Bearer ' + localStorage.token }
                 });
                 const res = await instance.get(`/quizzes/code/${this.quizzCode}`)
-                console.log("quizz: ", res)
-                this.selectedQuiz = res.data[0]
+                console.log("res: ", res)
+                this.selectedQuiz = res.data
+                console.log("quiz: ", this.selectedQuiz)
                 this.quizDialog = true
             } catch(err) {
                 if (err.response.status === 412) {
@@ -100,11 +115,14 @@ export default {
             this.bgAudio.play()
         },
         stopMusic() {
+            /* eslint-disable */
+            console.log("deveria parar ")
             this.bgAudio.pause()
         }
     },
     async created() {
         /* eslint-disable */
+        
         const instance = axios.create({
             baseURL: 'http://localhost:8888',
             headers: {'authorization':  'Bearer ' + localStorage.token }
@@ -115,6 +133,7 @@ export default {
         const response = await instance.get(`/user/quizzes/participating`)
         console.log("res: ", response)
         this.quizzesParticipating = response.data
+        this.playBackgroundMusic()
     }
 }
 </script>

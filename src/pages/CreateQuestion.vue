@@ -41,26 +41,96 @@ export default {
   },
   methods: {
     async save () {
-      const obj = {
+      const random = Math.floor(Math.random() * 4)
+      var obj = {}
+      if (random === 0) {
+        obj = {
         header: this.title,
         options: [
-          {
-            text: this.altA,
-            isCorrect: false
-          },
-          {
-            text: this.altB,
-            isCorrect: false
-          },
-          {
-            text: this.altC,
-            isCorrect: true
-          },
-          {
-            text: this.altD,
-            isCorrect: false
-          },
-        ]
+            {
+              text: this.altA,
+              isCorrect: true
+            },
+            {
+              text: this.altB,
+              isCorrect: false
+            },
+            {
+              text: this.altC,
+              isCorrect: false
+            },
+            {
+              text: this.altD,
+              isCorrect: false
+            },
+          ]
+        }
+      } else if (random === 1) {
+        obj = {
+        header: this.title,
+        options: [
+            {
+              text: this.altB,
+              isCorrect: false
+            },
+            {
+              text: this.altA,
+              isCorrect: true
+            },
+            {
+              text: this.altC,
+              isCorrect: false
+            },
+            {
+              text: this.altD,
+              isCorrect: false
+            },
+          ]
+        }
+      } else if (random === 2) {
+        obj = {
+        header: this.title,
+        options: [
+            {
+              text: this.altB,
+              isCorrect: false
+            },
+            {
+              text: this.altC,
+              isCorrect: false
+            },
+            {
+              text: this.altA,
+              isCorrect: true
+            },
+            {
+              text: this.altD,
+              isCorrect: false
+            },
+          ]
+        }
+      } else {
+        obj = {
+        header: this.title,
+        options: [
+            {
+              text: this.altB,
+              isCorrect: false
+            },
+            {
+              text: this.altD,
+              isCorrect: false
+            },
+            {
+              text: this.altC,
+              isCorrect: false
+            },
+            {
+              text: this.altA,
+              isCorrect: true
+            },
+          ]
+        }
       }
       /* eslint-disable */
       const instance = axios.create({
@@ -69,6 +139,11 @@ export default {
         });
         const res = await instance.post('/questions', obj)
         this.questions.push(obj)
+        this.altA = ''
+        this.altB = ''
+        this.altC = ''
+        this.altD = ''
+        this.title = ''
         this.$emit('emit', 'teste')
         console.log("res: ", res)
       // TODO: Method to save

@@ -21,8 +21,15 @@ export default {
             type: Object
         }
     },
+    data () {
+        return {
+            ranking: []
+        }
+    },
     created () {
         /* eslint-disable */ 
+        this.quiz.ranking = this.quiz.ranking.sort(function(a, b){return b.points-a.points});
+        console.log(this.quiz.ranking)
     },
     methods: {
         typeByIndex(index) {

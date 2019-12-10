@@ -55,6 +55,9 @@ export default {
     beforeDestroy() {
         this.stopMusic()
     },
+    created() {
+        console.log("teste quiz: ", this.quiz)
+    },
     methods: {
         response (question) {
             if (this.showingRight === false) {
